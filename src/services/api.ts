@@ -35,7 +35,7 @@ export interface Publicacion {
 }
 
 
-const API_URL = "http://localhost:3000";
+export const API_URL = "http://localhost:3000";
 
 export async function obtenerPublicaciones(): Promise<Publicacion[]> {
   const respuesta = await fetch(`${API_URL}/post`);

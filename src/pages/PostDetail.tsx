@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { UserContext } from "../context/userContext";
+import { useAuth } from "../context/useAuth";
+
 
 import {
   obtenerPublicacion,
@@ -14,10 +15,7 @@ function PostDetail() {
   const [publicacion, setPublicacion] = useState<Publicacion | null>(null);
   const [contenidoComentario, setContenidoComentario] = useState("");
 
-  const contexto = useContext(UserContext);
-
-  const usuario = contexto?.usuario;
-
+  const { user: usuario } = useAuth();
 
   useEffect(() => {
   async function cargarPublicacion() {
