@@ -35,7 +35,8 @@ export interface Publicacion {
 }
 
 
-export const API_URL = "http://localhost:3000";
+// Vite redirige las peticiones /api al backend que corre en localhost:3000.
+export const API_URL = "/api";
 
 export async function obtenerPublicaciones(): Promise<Publicacion[]> {
   const respuesta = await fetch(`${API_URL}/post`);
@@ -46,6 +47,15 @@ export async function obtenerPublicaciones(): Promise<Publicacion[]> {
 
   return await respuesta.json();
   
+}
+
+// La API actual devuelve todas las publicaciones en GET /post.
+// Filtramos por userId en el frontend para mostrar solo las del perfil activo.
+export async function obtenerPublicacionesPorUsuario(
+  userId: number
+): Promise<Publicacion[]> {
+  const publicaciones = await obtenerPublicaciones();
+  return publicaciones.filter((publicacion) => publicacion.userId === userId);
 }
 
 export async function obtenerPublicacion(id: string): Promise<Publicacion> {
