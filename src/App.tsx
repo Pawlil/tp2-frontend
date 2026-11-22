@@ -5,6 +5,7 @@ import Login from './pages/login/Login'
 import Profile from './pages/profile/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
+import Register from './pages/Register'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route element={<ProtectedRoute />}>
             <Route path="/perfil" element={<Profile />} />
           </Route>
+          <Route path="/register" element={<Register />} />
           <Route path="*" element={<Navigate to="/home" replace />} />
         </Routes>
       </BrowserRouter>
