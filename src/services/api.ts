@@ -91,3 +91,41 @@ export async function crearComentario(
 
   return await respuesta.json();
 }
+
+// crear publis
+
+export async function obtenerEtiquetas(): Promise<Etiqueta[]> {
+  const respuesta = await fetch(`${API_URL}/tag`);
+
+  if (!respuesta.ok) {
+    throw new Error("No se pudieron obtener las etiquetas");
+  }
+
+  return await respuesta.json();
+}
+
+export async function crearPublicacion(
+  description: string,
+  userId: number | string,
+  urlsImagenes: string[],
+  tags: (number | string)[]
+): Promise<Publicacion> {
+  const respuesta = await fetch(`${API_URL}/post`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      description,
+      userId,
+      post_images: urlsImagenes.map((url) => ({ url })),
+      tags,
+    }),
+  });
+
+  if (!respuesta.ok) {
+    throw new Error("No se pudo crear la publicación");
+  }
+
+  return await respuesta.json();
+}
