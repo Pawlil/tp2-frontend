@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../context/useAuth";
-
+import "./PostDetail.css"
 
 import {
   obtenerPublicacion,
@@ -78,9 +78,13 @@ async function manejarEnvioComentario(e: React.FormEvent<HTMLFormElement>) {
   <main className="post-detail">
     <article className="post-detail-card">
 
-      <header>
-        <h2>{publicacion.user.nickName}</h2>
-      </header>
+      <header className="post-detail-author">
+  <img
+    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
+    alt="Foto de perfil"
+  />
+  <h2>{publicacion.user.nickName}</h2>
+</header>
 
       <p>{publicacion.description}</p>
 
@@ -129,9 +133,9 @@ async function manejarEnvioComentario(e: React.FormEvent<HTMLFormElement>) {
     required
   />
 
-  <button type="submit">
-    Publicar comentario
-  </button>
+  <button type="submit" className="btn-publicar-comentario">
+  Publicar comentario
+</button>
 </form>
     </article>
   </main>

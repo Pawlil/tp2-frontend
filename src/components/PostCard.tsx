@@ -9,10 +9,14 @@ interface PostCardProps {
 function PostCard({ publicacion }: PostCardProps) {
   return (
     <article className="post-card">
-      <header>
-        <h3>{publicacion.user.nickName}</h3>
-      </header>
-
+      <header className="post-card-header">
+  <img
+    src="https://cdn-icons-png.flaticon.com/512/9187/9187604.png"
+    alt="Foto de perfil"
+    className="user-avatar"
+  />
+  <h3>{publicacion.user.nickName}</h3>
+</header>
       <p>{publicacion.description}</p>
 
       {publicacion.images.length > 0 && (

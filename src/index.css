@@ -25,3 +25,12 @@ body {
   min-height: 100vh;
   background-color: var(--color-background);
 }
+
+.app-content {
+  margin-left: 220px;
+  width: calc(100% - 220px);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
