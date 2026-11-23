@@ -75,7 +75,7 @@ const cargarPublicaciones = useCallback(async () => {
         )}
 
         <p>¿Qué está pasando hoy? Compartilo con la comunidad.</p>
-<CrearPostModal onPostCreado={cargarPublicaciones} />
+        <CrearPostModal onPostCreado={cargarPublicaciones} />
       </section>
 
       <section className="posts-feed">
