@@ -112,6 +112,8 @@ export const RegisterForm = () => {
 
             <form onSubmit={handleSubmit} noValidate>
 
+                {/* TODOS los campos que no sean usuario son decorativos (Como no los requiere el backend, esos campos no los verificamos)*/}
+
                 {/* USUARIO */}
                 <div className="mb-4 user">
                     <label htmlFor="user" className="form-label">
