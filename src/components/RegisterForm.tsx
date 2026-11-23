@@ -1,9 +1,14 @@
+
 import { useState, type ChangeEvent, type FormEvent } from "react";
-import { validateForm } from '../validators/registerFormValidator.ts';
-import { createUser } from "../services/userService.ts";
+import { validateForm } from "../validators/registerFormValidator";
+import { createUser } from "../services/userService";
 import { useNavigate } from "react-router-dom";
-import type { FormData, FormErrors } from "../types/registerFormTypes.ts";
+import { useAuth } from "../context/useAuth";
+import type { FormData, FormErrors } from "../types/registerFormTypes";
+import Alert from "react-bootstrap/Alert";
 import "./RegisterForm.css";
+
+const PASSWORD_FIJA = "123456";
 
 export const RegisterForm = () => {
 
@@ -13,16 +18,14 @@ export const RegisterForm = () => {
         gender: "",
         email: "",
         phone: "",
-        password: "",
     });
 
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [errors, setErrors] = useState<FormErrors>({});
-
-    const [loading, setLoading] = useState(false);
-
-    const [serverError, setServerError] = useState("");
+    const [submitting, setSubmitting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
 
@@ -38,7 +41,7 @@ export const RegisterForm = () => {
             [name]: "",
         });
 
-        setServerError("");
+        setError(null);
     };
 
     const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -48,35 +51,56 @@ export const RegisterForm = () => {
         const newErrors: FormErrors = validateForm(formData);
 
         setErrors(newErrors);
-        setServerError("");
+        setError(null);
 
         if (Object.keys(newErrors).length > 0) {
             return;
         }
 
+        setSubmitting(true);
+
+        let accountCreated = false;
+
         try {
 
-            setLoading(true);
+            const nickName = formData.user.trim();
 
-            await createUser(formData.user.trim());
+            // Crear el usuario en el Backend
+            await createUser(nickName);
 
-            navigate("/home", {
-                state: {
-                    accountCreated: true
-                }
+            accountCreated = true;
+
+            // Iniciar sesión automáticamente
+            await login({
+                nickName,
+                password: PASSWORD_FIJA,
             });
 
-        } catch (error) {
+            // Redirigir a Home con el usuario autenticado
+            navigate("/home", {
+                replace: true,
+                state: {
+                    accountCreated: true,
+                },
+            });
 
-            if (error instanceof Error) {
-                setServerError(error.message);
+        } catch (err) {
+
+            if (accountCreated) {
+                setError(
+                    "Tu cuenta fue creada correctamente, pero no se pudo iniciar sesión automáticamente. Podés ingresar desde Login con la contraseña 123456."
+                );
             } else {
-                setServerError("No se pudo crear el usuario");
+                setError(
+                    err instanceof Error
+                        ? err.message
+                        : "No se pudo crear el usuario."
+                );
             }
 
         } finally {
 
-            setLoading(false);
+            setSubmitting(false);
 
         }
     };
@@ -97,7 +121,7 @@ export const RegisterForm = () => {
                         id="user"
                         name="user"
                         placeholder="Escribe tu nombre de usuario"
-                        className={`form-control input-short ${errors.user ? 'is-invalid' : ''}`}
+                        className={`form-control input-short ${errors.user ? "is-invalid" : ""}`}
                         value={formData.user}
                         onChange={handleChange}
                         aria-invalid={!!errors.user}
@@ -180,23 +204,6 @@ export const RegisterForm = () => {
                     />
                 </div>
 
-                {/* CONTRASEÑA */}
-                <div className="mb-4 password">
-                    <label htmlFor="password" className="form-label">
-                        Contraseña
-                    </label>
-
-                    <input
-                        type="password"
-                        id="password"
-                        name="password"
-                        placeholder="Escribe tu contraseña"
-                        className="form-control input-short"
-                        value={formData.password}
-                        onChange={handleChange}
-                    />
-                </div>
-
                 {/* PRIVACIDAD */}
                 <div className="privacy-note">
                     <p>
@@ -206,22 +213,20 @@ export const RegisterForm = () => {
                     </p>
                 </div>
 
-                {/* ERROR DEL SERVIDOR */}
-                {serverError && (
-                    <div className="server-error-message" role="alert">
-                        <span className="server-error-icon">!</span>
-
-                        <span>{serverError}</span>
-                    </div>
+                {/* ERROR */}
+                {error && (
+                    <Alert variant="danger" role="alert">
+                        {error}
+                    </Alert>
                 )}
 
                 {/* BOTON DE ENVIAR */}
                 <button
                     type="submit"
                     className="btn btn-primary form-button"
-                    disabled={loading}
+                    disabled={submitting}
                 >
-                    {loading ? "Registrando..." : "Enviar"}
+                    {submitting ? "Registrando..." : "Enviar"}
                 </button>
 
             </form>
@@ -235,3 +240,4 @@ export const RegisterForm = () => {
         </div>
     );
 };
+

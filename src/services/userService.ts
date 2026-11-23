@@ -1,4 +1,4 @@
-const API_URL = import.meta.env.VITE_API_URL;
+import { API_URL } from "./api";
 
 interface ApiResponse {
     message?: string;
@@ -7,15 +7,21 @@ interface ApiResponse {
 
 export const createUser = async (nickName: string): Promise<void> => {
 
-    const response = await fetch(`${API_URL}/user`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-            nickName,
-        }),
-    });
+    let response: Response;
+
+    try {
+        response = await fetch(`${API_URL}/user`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                nickName,
+            }),
+        });
+    } catch {
+        throw new Error("No se pudo conectar con el servidor");
+    }
 
     const data: ApiResponse = await response.json();
 

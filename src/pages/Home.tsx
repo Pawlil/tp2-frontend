@@ -1,5 +1,7 @@
 
+
 import { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { obtenerPublicaciones, type Publicacion } from "../services/api";
 import { useAuth } from "../context/useAuth";
 import PostCard from "../components/PostCard";
@@ -7,7 +9,20 @@ import "./Home.css";
 
 function Home() {
   const { user } = useAuth();
+  const location = useLocation();
+
   const [publicaciones, setPublicaciones] = useState<Publicacion[]>([]);
+
+  const [showAccountCreated, setShowAccountCreated] = useState(
+    location.state?.accountCreated === true
+  );
+
+  useEffect(() => {
+    // Evita que el mensaje de registro vuelva a aparecer al recargar Home.
+    if (location.state?.accountCreated) {
+      window.history.replaceState({}, document.title);
+    }
+  }, [location.state]);
 
   useEffect(() => {
     async function cargarPublicaciones() {
@@ -32,8 +47,32 @@ function Home() {
   return (
     <main className="home-container">
       <section className="home-banner">
-              <h1>¡Bienvenido a UnaHur Anti-Social Net</h1>
+        <h1>¡Bienvenido a UnaHur Anti-Social Net</h1>
+
         <h3>¡Hola, {user?.nickName ?? "usuario"}!</h3>
+
+        {/* MENSAJE DE REGISTRO EXITOSO */}
+        {showAccountCreated && (
+          <div className="account-created-message" role="alert">
+            <div className="account-created-content">
+              <strong>¡Cuenta creada correctamente!</strong>
+              <p>
+                ¡Bienvenido a UnaHur Anti-Social Net!
+                  Tu contraseña para futuros ingresos es <strong>123456</strong>.
+              </p>
+            </div>
+
+            <button
+              type="button"
+              className="account-created-close"
+              onClick={() => setShowAccountCreated(false)}
+              aria-label="Cerrar mensaje"
+            >
+              ×
+            </button>
+          </div>
+        )}
+
         <p>¿Qué está pasando hoy? Compartilo con la comunidad.</p>
 
         <button type="button" className="home-create-button">
@@ -58,3 +97,4 @@ function Home() {
 }
 
 export default Home;
+
