@@ -59,7 +59,11 @@ export async function obtenerPublicacionesPorUsuario(
 }
 
 export async function obtenerPublicacion(id: string): Promise<Publicacion> {
+  console.log("Consultando publicación:", `${API_URL}/post/${id}`);
+
   const respuesta = await fetch(`${API_URL}/post/${id}`);
+
+  console.log("Estado HTTP:", respuesta.status);
 
   if (!respuesta.ok) {
     throw new Error("No se pudo obtener la publicación");

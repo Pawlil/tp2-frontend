@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { AuthContext } from "../context/authContextValue";
+import { useState, useEffect } from "react";
+import { useAuth } from "../context/useAuth";
 import {
   crearPublicacion,
   obtenerEtiquetas,
@@ -12,8 +12,7 @@ interface CrearPostModalProps {
 }
 
 export default function CrearPostModal({ onPostCreado }: CrearPostModalProps) {
-  const auth = useContext(AuthContext);
-  const user = auth?.user;
+  const { user } = useAuth();
 
   const [show, setShow] = useState(false);
   const [description, setDescription] = useState("");
@@ -31,8 +30,6 @@ export default function CrearPostModal({ onPostCreado }: CrearPostModalProps) {
         .catch(() => setError("No se pudieron cargar las etiquetas"));
     }
   }, [show]);
-
-  if (!user) return null;
 
   const handleCerrar = () => {
     setShow(false);
@@ -68,16 +65,15 @@ export default function CrearPostModal({ onPostCreado }: CrearPostModalProps) {
       setError("La descripción es obligatoria.");
       return;
     }
-
-    try {
-      setEnviando(true);
-      setError(null);
-      await crearPublicacion(
-        description.trim(),
-        user.id,
-        imagenes,
-        tagsSeleccionados
-      );
+try {
+    setEnviando(true);
+    setError(null);
+    await crearPublicacion(
+      description.trim(),
+      user?.id ?? "673a00000000000000000001", // id de prueba por si no hay login
+      imagenes,
+      tagsSeleccionados
+    );
       handleCerrar();
       onPostCreado();
     } catch (err) {
@@ -94,11 +90,10 @@ export default function CrearPostModal({ onPostCreado }: CrearPostModalProps) {
       <button
         type="button"
         id="btn-abrir-crear-post"
-        className="btn-crear-post"
+        className="home-create-button"
         onClick={() => setShow(true)}
-        title="Nueva publicación"
       >
-        +
+        Haz una publicación
       </button>
 
       {show && (
@@ -130,7 +125,7 @@ export default function CrearPostModal({ onPostCreado }: CrearPostModalProps) {
 
                 <div className="crear-post-group">
                   <label htmlFor="post-description">
-                    ¿Qué estás pensando, {user.nickName}?
+                    ¿Qué estás pensando, {user?.nickName ?? "invitado"}?
                   </label>
                   <textarea
                     id="post-description"

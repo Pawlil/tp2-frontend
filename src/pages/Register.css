@@ -1,0 +1,100 @@
+/* REGISTRO */
+
+.register-page {
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
+    padding: 55px 20px 65px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #F7F7F7;
+}
+
+/* PRINCIPAL */
+
+.register-page > div {
+    width: 100%;
+    max-width: 680px;
+    flex: 0 0 100%;
+    padding: 0;
+}
+
+/* ENCABEZADO */
+
+.register-eyebrown {
+    display: inline-block;
+    margin: 0 0 18px;
+    padding: 7px 11px;
+    background-color: #E8E8EA;
+    border: 1px solid #E8E8EA;
+    border-radius: 5px;
+    color: #080808;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.11em;
+}
+
+/* TÍTULO Y DESCRIPCIÓN */
+
+.register-heading {
+    margin: 0 0 27px;
+}
+
+.register-heading h1 {
+    margin: 0 0 11px;
+    color: #080808;
+    font-size: clamp(2rem, 4vw, 2.55rem);
+    font-weight: 750;
+    letter-spacing: -0.045em;
+    line-height: 1.2;
+}
+
+.register-intro {
+    max-width: 580px;
+    margin: 0;
+    color: #777777;
+    font-size: 0.96rem;
+    line-height: 1.65;
+}
+
+/* MOBILE */
+
+@media (max-width: 767.98px) {
+
+    .register-page {
+        min-height: 100vh;
+        padding: 32px 16px 40px;
+    }
+
+    .register-eyebrown {
+        margin-bottom: 15px;
+        font-size: 0.68rem;
+    }
+
+    .register-heading {
+        margin-bottom: 23px;
+    }
+
+    .register-heading h1 {
+        font-size: 2rem;
+    }
+
+    .register-intro {
+        font-size: 0.9rem;
+        line-height: 1.6;
+    }
+
+}
+
+@media (max-width: 380px) {
+
+    .register-page {
+        padding: 25px 12px 30px;
+    }
+
+    .register-heading h1 {
+        font-size: 1.8rem;
+    }
+
+}
