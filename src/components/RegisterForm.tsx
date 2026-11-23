@@ -63,20 +63,22 @@ export const RegisterForm = () => {
 
         try {
 
+            //Lo que se hace en este try es crear el usuario, loguearlo y redirigirlo a Home.
+            
             const nickName = formData.user.trim();
 
-            // Crear el usuario en el Backend
+            // Crea el usuario en el Backend.
             await createUser(nickName);
 
             accountCreated = true;
 
-            // Iniciar sesión automáticamente
+            // Inicia sesión automáticamente.
             await login({
                 nickName,
                 password: PASSWORD_FIJA,
             });
 
-            // Redirigir a Home con el usuario autenticado
+            // Redirige a Home con el usuario ya logueado.
             navigate("/home", {
                 replace: true,
                 state: {
