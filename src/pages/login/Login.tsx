@@ -1,5 +1,5 @@
 import { useState, type SubmitEvent } from 'react'
-import { Navigate, useNavigate } from 'react-router-dom'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
 import Alert from 'react-bootstrap/Alert'
 import Form from 'react-bootstrap/Form'
 import Spinner from 'react-bootstrap/Spinner'
@@ -116,6 +116,9 @@ function Login() {
                             )}
                         </button>
                     </Form>
+                    <p className="login-register">
+                        ¿No tenés cuenta? <Link to="/register">Registrate</Link>
+                    </p>
                 </div>
 
                 <p className="login-footer">© {new Date().getFullYear()} UnaHur Anti-Social Net</p>

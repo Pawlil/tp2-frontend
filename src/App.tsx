@@ -14,6 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
 
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
@@ -23,7 +24,6 @@ function App() {
               <Route path="/perfil" element={<Profile />} />
             </Route>
 
-            <Route path="/register" element={<Register />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/home" replace />} />
