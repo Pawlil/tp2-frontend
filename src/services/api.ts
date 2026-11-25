@@ -111,9 +111,10 @@ export async function obtenerEtiquetas(): Promise<Etiqueta[]> {
 export async function crearPublicacion(
   description: string,
   userId: number | string,
-  urlsImagenes: string[],
-  tags: (number | string)[]
+  urlsImagenes: string[] = [],
+  tags: (number | string)[] = []
 ): Promise<Publicacion> {
+  //crea el post solo con description y userId
   const respuesta = await fetch(`${API_URL}/post`, {
     method: "POST",
     headers: {
@@ -122,14 +123,46 @@ export async function crearPublicacion(
     body: JSON.stringify({
       description,
       userId,
-      post_images: urlsImagenes.map((url) => ({ url })),
-      tags,
     }),
   });
 
   if (!respuesta.ok) {
-    throw new Error("No se pudo crear la publicación");
+    const errData = await respuesta.json().catch(() => null);
+    throw new Error(
+      errData?.error || errData?.message || "No se pudo crear la publicación"
+    );
   }
 
-  return await respuesta.json();
+  const postCreado = await respuesta.json();
+  const postId = postCreado.id ?? postCreado.post?.id ?? postCreado.data?.id;
+
+  // asociar imágenes por POST /api/post/:id/images
+  if (postId && urlsImagenes.length > 0) {
+    for (const url of urlsImagenes) {
+      const resImg = await fetch(`${API_URL}/post/${postId}/images`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url }),
+      });
+      if (!resImg.ok) {
+        throw new Error("La publicación se creó, pero falló al agregar una imagen");
+      }
+    }
+  }
+
+  //asociar tags por POST /api/post/:id/tags
+  if (postId && tags.length > 0) {
+    for (const tagId of tags) {
+      const resTag = await fetch(`${API_URL}/post/${postId}/tags`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ tagId }),
+      });
+      if (!resTag.ok) {
+        throw new Error("La publicación se creó, pero falló al asociar una etiqueta");
+      }
+    }
+  }
+
+  return postCreado;
 }

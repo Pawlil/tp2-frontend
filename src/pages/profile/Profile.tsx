@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/useAuth'
 import { obtenerPublicacionesPorUsuario, type Publicacion } from '../../services/api'
 import PostCard from '../../components/PostCard'
 import './Profile.css'
 
 function Profile() {
-    const navigate = useNavigate()
-    const { user, logout } = useAuth()
+    const { user } = useAuth()
     const [publicaciones, setPublicaciones] = useState<Publicacion[]>([])
     const [cargando, setCargando] = useState(true)
     const [error, setError] = useState('')
@@ -41,11 +40,6 @@ function Profile() {
         }
     }, [user, intento])
 
-    const handleLogout = () => {
-        logout()
-        navigate('/login', { replace: true })
-    }
-
     return (
         <main className="profile-container">
             <header className="profile-header">
@@ -57,9 +51,6 @@ function Profile() {
                         {publicaciones.length} {publicaciones.length === 1 ? 'publicación' : 'publicaciones'}
                     </p>
                 </div>
-                <button className="profile-logout" type="button" onClick={handleLogout}>
-                    Cerrar sesión
-                </button>
             </header>
 
             <section className="profile-posts">

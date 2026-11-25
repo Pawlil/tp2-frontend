@@ -70,7 +70,7 @@ try {
     setError(null);
     await crearPublicacion(
       description.trim(),
-      user?.id ?? "673a00000000000000000001", // id de prueba por si no hay login
+      user?.id ?? 1, // id de prueba por si no hay login
       imagenes,
       tagsSeleccionados
     );
