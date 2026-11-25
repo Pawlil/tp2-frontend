@@ -48,7 +48,7 @@ function Home() {
       <section className="home-banner">
         <h1>¡Bienvenido a UnaHur Anti-Social Net</h1>
 
-        <h3>¡Hola, {user?.nickName ?? "usuario"}!</h3>
+        <h2>¡Hola, {user?.nickName ?? "usuario"}!</h2>
 
         {/* MENSAJE DE REGISTRO EXITOSO */}
         {showAccountCreated && (

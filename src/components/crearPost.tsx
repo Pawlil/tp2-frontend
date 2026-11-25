@@ -60,29 +60,33 @@ export default function CrearPostModal({ onPostCreado }: CrearPostModalProps) {
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    if (!user) {
+      setError("Tenés que iniciar sesión para publicar.");
+      return;
+    }
     e.preventDefault();
     if (!description.trim()) {
       setError("La descripción es obligatoria.");
       return;
     }
-try {
-    setEnviando(true);
-    setError(null);
-    await crearPublicacion(
-      description.trim(),
-      user?.id ?? 1, // id de prueba por si no hay login
-      imagenes,
-      tagsSeleccionados
-    );
-      handleCerrar();
-      onPostCreado();
-    } catch (err) {
-      setError(
-        err instanceof Error ? err.message : "Error al crear la publicación"
+    try {
+      setEnviando(true);
+      setError(null);
+      await crearPublicacion(
+        description.trim(),
+        user.id,
+        imagenes,
+        tagsSeleccionados
       );
-    } finally {
-      setEnviando(false);
-    }
+        handleCerrar();
+        onPostCreado();
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Error al crear la publicación"
+        );
+      } finally {
+        setEnviando(false);
+      }
   };
 
   return (
@@ -92,8 +96,9 @@ try {
         id="btn-abrir-crear-post"
         className="home-create-button"
         onClick={() => setShow(true)}
+        disabled={!user}
       >
-        Haz una publicación
+        {user ? "Haz una publicación" : "Logueate para publicar"}
       </button>
 
       {show && (
@@ -143,7 +148,7 @@ try {
                 </div>
 
                 <div className="crear-post-group">
-                  <label htmlFor="post-image-url">Imágenes (URL opcional)</label>
+                  <label htmlFor="post-image-url">Imágenes (opcional)</label>
                   <div className="crear-post-image-row">
                     <input
                       id="post-image-url"

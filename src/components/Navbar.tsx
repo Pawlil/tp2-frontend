@@ -5,7 +5,7 @@ import "./Navbar.css";
 
 function Navbar() {
   const navigate = useNavigate();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -30,19 +30,26 @@ function Navbar() {
 
         <NavLink to="/perfil" className="navbar-link">
           <span className="navbar-icon">👤</span>
-          <span>Mi perfil</span>
+          <span>{user ? ("Mi perfil"
+        ) : (
+          "Iniciar sesion"
+        )}</span>
         </NavLink>
       </nav>
 
       <div className="navbar-bottom">
-        <button
-          className="navbar-logout"
-          type="button"
-          onClick={handleLogout}
-        >
-          <span className="navbar-icon">🔐</span>
-          <span>Cerrar sesión</span>
-        </button>
+        {user ? (
+          <button
+            className="navbar-logout"
+            type="button"
+            onClick={handleLogout}
+          >
+            <span className="navbar-icon">🔐</span>
+            <span>Cerrar sesión</span>
+          </button>
+        ) : (
+          null
+        )}
       </div>
     </aside>
   );
