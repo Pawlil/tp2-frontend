@@ -35,7 +35,7 @@ El inicio de sesión es simulado: se busca el nickName en la API y la contraseñ
 
 Usamos nuestro propio backend, hecho para la materia Estrategia de Persistencia:
 
-https://github.com/JuanSchmidt/Trabajo-Practico-1-EDP
+https://github.com/Pawlil/anti-social-backend.git
 
 La API corre en **http://localhost:3000**. El frontend le hace las peticiones a `/api` y Vite las redirige a ese puerto (está configurado en `vite.config.ts`), por eso hay que tener el backend levantado antes de usar la aplicación.
 
