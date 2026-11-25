@@ -45,8 +45,8 @@ La API corre en **http://localhost:3000**. El frontend le hace las peticiones a 
 
 1. **Clonar el repositorio del backend:**
     ```
-    git clone https://github.com/JuanSchmidt/Trabajo-Practico-1-EDP.git
-    ```
+    git clone 
+    ```https://github.com/Pawlil/anti-social-backend.git
 2. **Dirigirse a la carpeta del repositorio:**
     ```
     cd Trabajo-Practico-1-EDP
