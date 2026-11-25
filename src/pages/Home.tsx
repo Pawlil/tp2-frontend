@@ -1,10 +1,7 @@
-
-
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState} from "react";
 import { useLocation } from "react-router-dom";
 import { obtenerPublicaciones, type Publicacion } from "../services/api";
 import { useAuth } from "../context/useAuth";
-import CrearPostModal from "../components/crearPost";
 import PostCard from "../components/PostCard";
 import "./Home.css";
 
@@ -25,25 +22,25 @@ function Home() {
     }
   }, [location.state]);
 
-const cargarPublicaciones = useCallback(async () => {
-    try {
-      const datos = await obtenerPublicaciones();
-
-      setPublicaciones(
-        [...datos].sort(
-          (a, b) =>
-            new Date(b.createdAt).getTime() -
-            new Date(a.createdAt).getTime()
-        )
-      );
-    } catch (error) {
-      console.error("Error al cargar publicaciones:", error);
-    }
-  }, []);
-
   useEffect(() => {
+    async function cargarPublicaciones() {
+      try {
+        const datos = await obtenerPublicaciones();
+
+        setPublicaciones(
+          [...datos].sort(
+            (a, b) =>
+              new Date(b.createdAt).getTime() -
+              new Date(a.createdAt).getTime()
+          )
+        );
+      } catch (error) {
+        console.error("Error al cargar publicaciones:", error);
+      }
+    }
+
     cargarPublicaciones();
-  }, [cargarPublicaciones]);
+  }, []);
 
   return (
     <main className="home-container">
@@ -75,7 +72,10 @@ const cargarPublicaciones = useCallback(async () => {
         )}
 
         <p>¿Qué está pasando hoy? Compartilo con la comunidad.</p>
-        <CrearPostModal onPostCreado={cargarPublicaciones} />
+
+        <button type="button" className="home-create-button">
+          Haz una publicación
+        </button>
       </section>
 
       <section className="posts-feed">

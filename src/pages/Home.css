@@ -183,3 +183,112 @@
     }
 }
 
+
+.posts-feed > * {
+  border: 1px solid #d1d1d1;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 600px) {
+  .home-container {
+    padding: 20px 15px;
+  }
+
+  .home-banner {
+    min-height: 230px;
+    padding: 28px 22px;
+  }
+
+  .home-banner h1 {
+    font-size: 19px;
+  }
+
+  .home-banner h2 {
+    font-size: 28px;
+  }
+
+  .home-banner p {
+    font-size: 14px;
+  }
+
+  .home-create-button {
+    width: 100%;
+  }
+}
+
+
+/* MENSAJE DE REGISTRO EXITOSO */
+
+.account-created-message {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 18px 20px;
+    margin: 15px 0 25px;
+    background-color: #14251D;
+    border: 1px solid #286343;
+    border-radius: 10px;
+    box-sizing: border-box;
+    color: #D1D1D1;
+    animation: message-appear 0.2s ease;
+}
+
+.account-created-content {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+.account-created-message strong {
+    color: #A5E6B9;
+    font-weight: 600;
+}
+
+.account-created-message p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #D1D1D1;
+}
+
+/* BOTÓN PARA CERRAR */
+
+.account-created-close {
+    flex-shrink: 0;
+    border: none;
+    background: transparent;
+    color: #999999;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 3px;
+    transition: color 0.2s ease;
+}
+
+.account-created-close:hover {
+    color: #FFFFFF;
+}
+
+.account-created-close:focus-visible {
+    outline: 2px solid #FFFFFF;
+    outline-offset: 3px;
+    border-radius: 3px;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+    .account-created-message {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .account-created-message p {
+        font-size: 13px;
+    }
+}
+
+

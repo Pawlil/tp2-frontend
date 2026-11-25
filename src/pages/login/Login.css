@@ -167,6 +167,17 @@
     font-size: 12px;
 }
 
+.login-register {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--color-secondary);
+}
+
+.login-register a {
+    font-weight: 600;
+}
+
 @media (max-width: 900px) {
     .login-panel {
         padding: 24px;
